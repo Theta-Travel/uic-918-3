@@ -1,13 +1,12 @@
 import { ZXing } from './barcode-reader';
 import interpretBarcode, { ParsedUIC918Barcode } from './barcode-data';
-import { loadFileOrBuffer } from './checkInput';
 
 type ReadBarcodeOptions = {
   verifySignature?: boolean;
 };
 
 export const readBarcode = async function (
-  input: string | Buffer,
+  input: Buffer,
   options?: ReadBarcodeOptions
 ): Promise<ParsedUIC918Barcode> {
   const defaults = {
@@ -15,8 +14,7 @@ export const readBarcode = async function (
   };
   const opts: ReadBarcodeOptions = Object.assign({}, defaults, options);
 
-  const imageBuffer = await loadFileOrBuffer(input);
-  const barcodeData = await ZXing(imageBuffer);
+  const barcodeData = await ZXing(input);
   const ticket = await interpretBarcode(barcodeData, opts.verifySignature);
   return ticket;
 };
