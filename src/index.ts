@@ -6,7 +6,7 @@ type ReadBarcodeOptions = {
 };
 
 export const readBarcode = async function (
-  input: Buffer,
+  input: string | Buffer,
   options?: ReadBarcodeOptions
 ): Promise<ParsedUIC918Barcode> {
   const defaults = {
